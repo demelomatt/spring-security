@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -14,9 +15,11 @@ import java.util.Collections;
 @Service
 public class UserService implements UserDetailsService {
     private final CustomerRepository customerRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserService(CustomerRepository customerRepository) {
+    public UserService(CustomerRepository customerRepository, PasswordEncoder passwordEncoder) {
         this.customerRepository = customerRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -29,6 +32,7 @@ public class UserService implements UserDetailsService {
     }
 
     public Customer registerCustomer(Customer customer) {
+        customer.setPwd(passwordEncoder.encode(customer.getPwd()));
         return customerRepository.save(customer);
     }
 }
