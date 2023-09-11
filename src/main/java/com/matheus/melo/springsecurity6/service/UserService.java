@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.Collections;
 
 @Service
-public class UserService implements UserDetailsService {
+public class UserService {
     private final CustomerRepository customerRepository;
     private final PasswordEncoder passwordEncoder;
 
@@ -22,6 +22,7 @@ public class UserService implements UserDetailsService {
         this.passwordEncoder = passwordEncoder;
     }
 
+    /*
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         var customer = customerRepository.findByEmail(username)
@@ -30,6 +31,8 @@ public class UserService implements UserDetailsService {
         var role = Collections.singletonList(new SimpleGrantedAuthority(customer.getRole()));
         return new User(customer.getEmail(), customer.getPwd(), role);
     }
+
+     */
 
     public Customer registerCustomer(Customer customer) {
         customer.setPwd(passwordEncoder.encode(customer.getPwd()));
